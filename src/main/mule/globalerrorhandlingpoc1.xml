@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="fed4e3d9-8503-4f5d-b142-16e3c5472cd0" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<configuration doc:name="Configuration" doc:id="8d02cdf4-8f3d-4417-879a-b54c8c51289a" defaultErrorHandler-ref="globalerrorhandlingpoc1Error_Handler" />
+	<error-handler name="globalerrorhandlingpoc1Error_Handler" doc:id="6894a0c0-eb47-459b-a22d-ce1c0206bbef" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="985400db-a9a9-4a07-a3c9-20f39603e78f" >
+			<logger level="INFO" doc:name="Logger" doc:id="81a95b0d-8af8-4f92-b228-a68d63cb3f55" />
+			<set-payload value="i am ali" doc:name="Set Payload" doc:id="79b4b2a1-091b-4b5a-adac-50c977bc8664" />
+		</on-error-continue>
+	</error-handler>
+	<flow name="globalerrorhandlingpoc1Flow" doc:id="26edb10d-595f-4936-9269-5c17605bbea3" >
+		<http:listener doc:name="Listener" doc:id="ce172148-41b6-44c2-a9f2-4b2fd6768dfe" config-ref="HTTP_Listener_config" path="/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7c5e95f6-1434-4fbc-8b60-03367d60948f" />
+		<validation:is-null doc:id="4b43dacf-a547-421c-af26-485f3d823fe2" value="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="81923d48-886f-442f-8c5f-3eaf352978cb" />
+	</flow>
+</mule>
